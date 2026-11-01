@@ -1,3 +1,4 @@
+git add .
 # Giao diện ReadLite cho bài báo cáo mobile app
 
 ## Chạy trong Android Studio
