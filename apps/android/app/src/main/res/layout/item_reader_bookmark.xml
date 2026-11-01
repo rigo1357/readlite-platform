@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="wrap_content"
+    android:orientation="vertical" android:padding="12dp" android:layout_marginBottom="12dp"
+    android:background="@drawable/bg_readlite_input">
+    <TextView android:id="@+id/bookmark_row_title" style="@style/Widget.ReadLite.Label" android:textSize="15sp" />
+    <TextView android:id="@+id/bookmark_row_position" style="@style/Widget.ReadLite.Body" android:textSize="12sp" />
+    <TextView android:id="@+id/bookmark_row_note" style="@style/Widget.ReadLite.Body"
+        android:layout_marginTop="10dp" android:maxLines="4" android:ellipsize="end" />
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:orientation="horizontal" android:layout_marginTop="8dp">
+        <com.google.android.material.button.MaterialButton android:id="@+id/bookmark_row_open"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1"
+            android:minWidth="0dp" android:textSize="12sp" android:textAllCaps="false"
+            android:text="@string/bookmark_open" />
+        <com.google.android.material.button.MaterialButton android:id="@+id/bookmark_row_edit"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1"
+            android:minWidth="0dp" android:textSize="12sp" android:textAllCaps="false"
+            android:text="@string/bookmark_edit" />
+        <com.google.android.material.button.MaterialButton android:id="@+id/bookmark_row_delete"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1"
+            android:minWidth="0dp" android:textSize="12sp" android:textAllCaps="false"
+            android:text="@string/bookmark_delete" />
+    </LinearLayout>
+</LinearLayout>

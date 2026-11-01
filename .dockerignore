@@ -1,0 +1,13 @@
+.git/
+.superpowers/
+node_modules/
+.npm-cache/
+**/node_modules/
+**/dist/
+coverage/
+.env
+.env.*
+!.env.example
+*.log
+uploads/
+apps/android/

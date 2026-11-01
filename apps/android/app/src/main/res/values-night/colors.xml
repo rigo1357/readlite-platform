@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="readlite_green">#C6B79E</color>
+    <color name="readlite_green_dark">#B6A58C</color>
+    <color name="readlite_ink">#F3F0EC</color>
+    <color name="readlite_muted">#BBB5AD</color>
+    <color name="readlite_paper">#191817</color>
+    <color name="readlite_surface">#242220</color>
+    <color name="readlite_line">#45413C</color>
+    <color name="readlite_taupe">#9A886C</color>
+    <color name="readlite_taupe_dark">#D8C5A6</color>
+    <color name="readlite_soft_taupe">#353029</color>
+</resources>

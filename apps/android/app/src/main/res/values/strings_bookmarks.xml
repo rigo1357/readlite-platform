@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="bookmark_add_button">Đánh dấu vị trí này</string>
+    <string name="bookmark_add_title">Thêm dấu trang</string>
+    <string name="bookmark_edit_title">Sửa ghi chú dấu trang</string>
+    <string name="bookmark_list_title">Dấu trang</string>
+    <string name="bookmark_note_label">Ghi chú (không bắt buộc)</string>
+    <string name="bookmark_note_hint">Ghi lại điều bạn muốn nhớ…</string>
+    <string name="bookmark_note_too_long">Ghi chú tối đa 2.000 ký tự.</string>
+    <string name="bookmark_position">Vị trí: %1$d%% trong chương</string>
+    <string name="bookmark_save">Lưu dấu trang</string>
+    <string name="bookmark_saving">Đang lưu dấu trang…</string>
+    <string name="bookmark_saved">Đã lưu dấu trang.</string>
+    <string name="bookmark_loading">Đang tải dấu trang…</string>
+    <string name="bookmark_empty">Chưa có dấu trang trong truyện này.</string>
+    <string name="bookmark_count">Đang hiện %1$d/%2$d dấu trang</string>
+    <string name="bookmark_load_more">Xem thêm</string>
+    <string name="bookmark_retry">Thử lại</string>
+    <string name="bookmark_close">Đóng</string>
+    <string name="bookmark_open">Mở</string>
+    <string name="bookmark_edit">Sửa ghi chú</string>
+    <string name="bookmark_delete">Xóa</string>
+    <string name="bookmark_delete_title">Xóa dấu trang?</string>
+    <string name="bookmark_delete_message">Dấu trang và ghi chú này sẽ được xóa.</string>
+    <string name="bookmark_deleted">Đã xóa dấu trang.</string>
+    <string name="bookmark_deleted_chapter">Chương đã được xóa</string>
+    <string name="bookmark_deleted_explanation">Không thể mở chương này. Bạn vẫn có thể sửa ghi chú hoặc xóa dấu trang.</string>
+    <string name="bookmark_no_note">Chưa có ghi chú.</string>
+    <string name="bookmark_wait_chapter">Hãy chờ nội dung chương tải xong để đánh dấu.</string>
+    <string name="bookmark_login_required">Hãy đăng nhập để lưu và xem dấu trang của bạn.</string>
+    <string name="bookmark_network_error">Chưa thực hiện được. Hãy kiểm tra kết nối và thử lại.</string>
+</resources>

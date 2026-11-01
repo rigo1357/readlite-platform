@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item android:id="@+id/catalog_nav_home" android:icon="@drawable/ic_readlite_home" android:title="Trang chủ"/>
+    <item android:id="@+id/catalog_nav_explore" android:icon="@drawable/ic_readlite_explore" android:title="@string/catalog_menu_explore"/>
+    <item android:id="@+id/catalog_nav_bookshelf" android:icon="@drawable/ic_readlite_shelf" android:title="@string/catalog_menu_bookshelf"/>
+    <item android:id="@+id/catalog_nav_account" android:icon="@drawable/ic_readlite_person" android:title="@string/catalog_menu_account"/>
+</menu>

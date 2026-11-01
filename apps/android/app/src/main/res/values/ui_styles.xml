@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Widget.ReadLite.Primary" parent="Widget.MaterialComponents.Button">
+        <item name="android:textAllCaps">false</item><item name="android:textSize">14sp</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="backgroundTint">@color/readlite_taupe</item><item name="cornerRadius">7dp</item>
+        <item name="android:minHeight">48dp</item><item name="android:insetTop">0dp</item><item name="android:insetBottom">0dp</item>
+    </style>
+    <style name="Widget.ReadLite.Secondary" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="android:textAllCaps">false</item><item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/readlite_taupe_dark</item><item name="strokeColor">@color/readlite_line</item>
+        <item name="cornerRadius">7dp</item><item name="android:minHeight">48dp</item>
+    </style>
+    <style name="Widget.ReadLite.Label" parent="">
+        <item name="android:layout_width">match_parent</item><item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/readlite_ink</item><item name="android:textSize">13sp</item>
+        <item name="android:textStyle">bold</item><item name="android:layout_marginBottom">6dp</item>
+    </style>
+    <style name="Widget.ReadLite.Field" parent="Widget.AppCompat.EditText">
+        <item name="android:layout_width">match_parent</item><item name="android:layout_height">52dp</item>
+        <item name="android:background">@drawable/bg_readlite_input</item>
+        <item name="android:paddingStart">14dp</item><item name="android:paddingEnd">14dp</item>
+        <item name="android:textColor">@color/readlite_ink</item><item name="android:textColorHint">@color/readlite_muted</item>
+        <item name="android:textSize">14sp</item><item name="android:singleLine">true</item>
+    </style>
+    <style name="Widget.ReadLite.Title" parent="">
+        <item name="android:layout_width">match_parent</item><item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/readlite_ink</item><item name="android:textSize">22sp</item><item name="android:textStyle">bold</item>
+    </style>
+    <style name="Widget.ReadLite.Body" parent="">
+        <item name="android:layout_width">match_parent</item><item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/readlite_muted</item><item name="android:textSize">13sp</item><item name="android:lineSpacingExtra">3dp</item>
+    </style>
+    <style name="Widget.ReadLite.Navigation" parent="Widget.MaterialComponents.BottomNavigationView">
+        <item name="android:layout_width">match_parent</item><item name="android:layout_height">64dp</item>
+        <item name="android:background">@color/readlite_surface</item><item name="elevation">0dp</item>
+        <item name="itemIconTint">@color/readlite_navigation_tint</item><item name="itemTextColor">@color/readlite_navigation_tint</item>
+        <item name="itemIconSize">22dp</item><item name="labelVisibilityMode">labeled</item>
+    </style>
+</resources>

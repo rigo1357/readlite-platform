@@ -1,0 +1,35 @@
+{
+  "name": "readlite-platform",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "workspaces": [
+    "apps/api",
+    "apps/web"
+  ],
+  "scripts": {
+    "dev:api": "npm run dev --workspace @readlite/api",
+    "dev:web": "npm run dev --workspace @readlite/web",
+    "build": "npm run build --workspaces --if-present",
+    "typecheck": "npm run typecheck --workspaces --if-present",
+    "test": "npm run test --workspaces --if-present",
+    "test:unit": "npm run test:unit --workspace @readlite/api && npm run test --workspace @readlite/web",
+    "test:integration": "npm run test --workspace @readlite/api",
+    "lint": "eslint . --max-warnings=0",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "db:migrate": "npm run db:migrate --workspace @readlite/api",
+    "db:seed": "npm run build --workspace @readlite/api && npm run db:seed --workspace @readlite/api",
+    "db:rollback": "npm run db:rollback --workspace @readlite/api"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "eslint": "^10.12.0",
+    "prettier": "^3.6.2",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.71.2"
+  }
+}

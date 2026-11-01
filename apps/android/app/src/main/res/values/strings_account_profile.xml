@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="profile_edit_button">Sửa hồ sơ     ›</string>
+    <string name="profile_edit_title">Sửa hồ sơ</string>
+    <string name="profile_display_name_label">Tên hiển thị</string>
+    <string name="profile_display_name_hint">Tên của bạn</string>
+    <string name="profile_username_label">Tên người dùng</string>
+    <string name="profile_username_hint">Từ 4 đến 20 ký tự</string>
+    <string name="profile_email_label">Email</string>
+    <string name="profile_email_readonly">Email đăng nhập hiện tại.</string>
+    <string name="profile_cancel">Hủy</string>
+    <string name="profile_save">Lưu hồ sơ</string>
+    <string name="profile_saving">Đang lưu…</string>
+    <string name="profile_saved">Đã cập nhật hồ sơ.</string>
+    <string name="profile_name_invalid">Tên hiển thị cần từ 1 đến 100 ký tự.</string>
+    <string name="profile_username_invalid">Tên người dùng cần từ 4 đến 20 ký tự.</string>
+    <string name="profile_username_taken">Tên người dùng đã được sử dụng.</string>
+    <string name="profile_session_expired">Phiên đăng nhập đã hết hạn. Hãy đóng hộp thoại và đăng nhập lại để lưu hồ sơ.</string>
+    <string name="profile_save_error">Chưa lưu được hồ sơ. Thông tin bạn nhập vẫn được giữ lại; hãy kiểm tra kết nối và thử lại.</string>
+</resources>

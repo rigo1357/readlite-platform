@@ -1,0 +1,283 @@
+SLIDES 23
+
+### 1
+CƠ SỞ DỮ LIỆU ⏎ TRONG READLITE
+Nhóm 18
+ANDROID
+Đọc truyện
+→
+WEB
+Quản trị
+→
+REST API
+Xác thực và xử lý
+→
+POSTGRESQL
+Dữ liệu ứng dụng
+NOTES: Giới thiệu đây là phần cơ sở dữ liệu của ReadLite. Dẫn câu hỏi: thao tác trên Android và web gặp nhau ở đâu? Trả lời ở slide kiến trúc. ⏎  ⏎ README.md; docker-compose.yml
+
+### 2
+NỘI DUNG CHÍNH
+Bốn phần đi từ bối cảnh đến dữ liệu kiểm chứng được
+01
+Tổng quan hệ thống
+Vì sao ReadLite cần PostgreSQL và dữ liệu nằm ở đâu
+02
+Thiết kế cơ sở dữ liệu
+Các bảng, quan hệ, ràng buộc và migration
+03
+Ghi và cập nhật dữ liệu
+Nhập EPUB, duyệt truyện, yêu thích và tiến độ đọc
+04
+Truy vấn và demo
+Điều kiện xuất bản, quyền truy cập và kiểm chứng trên app
+NOTES: Chỉ bốn phần. Nói rõ thứ tự: trước hết hiểu hệ thống, sau đó đọc lược đồ, xem dữ liệu được ghi, cuối cùng demo và đối chiếu database. Chuyển ý: bắt đầu bằng các thành phần của ReadLite.
+
+### 3
+01
+TỔNG QUAN ⏎ HỆ THỐNG
+NOTES: Chuyển ý: ReadLite có nhiều giao diện nhưng cần cùng thấy một kho truyện. Phần này giải thích vì sao PostgreSQL nằm ở phía máy chủ.
+
+### 4
+ReadLite là ứng dụng gì?
+Một truyện được tạo trên web và đọc trên Android
+Ứng dụng Android
+Người dùng tìm truyện, đọc chương, đánh dấu yêu thích và tiếp tục từ vị trí đã lưu.
+Web tác giả và quản trị
+Tác giả nhập EPUB hoặc tạo bản nháp. Quản trị viên kiểm tra và quyết định xuất bản.
+Nhu cầu dữ liệu chung
+Truyện vừa được duyệt trên web phải xuất hiện ở Android; tiến độ đọc phải gắn với tài khoản người dùng.
+NOTES: Lấy ví dụ một truyện vừa xuất bản. Trên web thấy trạng thái, trên điện thoại người đọc thấy truyện. Vì vậy cần một nguồn dữ liệu chung. Chuyển ý sang kiến trúc.
+
+### 5
+READLITE  /  POSTGRESQL
+05
+Kiến trúc truy cập dữ liệu
+Android và web gọi API; API làm việc với PostgreSQL
+ANDROID
+Khám phá, đọc
+WEB
+Nhập, duyệt
+→
+REST API
+Xác thực và nghiệp vụ
+→
+POSTGRESQL
+Tài khoản, truyện, tiến độ
+KHO MEDIA
+EPUB, bìa, ảnh chương
+API dùng DATABASE_URL để kết nối PostgreSQL.
+NOTES: Đọc từ trái sang phải. Android và web không chứa thông tin kết nối database, chỉ gửi request. API kiểm tra quyền trước khi ghi dữ liệu. EPUB và ảnh thuộc kho media. ⏎  ⏎ apps/api/src/db/pool.ts; docker-compose.yml
+
+### 6
+Dữ liệu nằm ở đâu?
+PostgreSQL
+users, stories, chapters, favorites, reading_progress, trạng thái duyệt
+Kho media
+Tệp EPUB gốc, ảnh bìa, ảnh trong chương; database giữ metadata và storage_key
+Android
+Giao diện và cỡ chữ Reader lưu cục bộ; tủ sách/tiến độ đi qua API
+Nếu sao lưu dự án, cần giữ cả PostgreSQL và kho media.
+NOTES: Nhấn mạnh PostgreSQL không giữ bytes EPUB. Chuyển ý: sau khi biết dữ liệu nằm ở đâu, ta xem các bảng và quan hệ giữa chúng. ⏎  ⏎ db/migrations/002-core-schema.ts; db/migrations/003-story-submissions-media.ts; docker-compose.yml
+
+### 7
+READLITE  /  POSTGRESQL
+07
+02
+THIẾT KẾ ⏎ CƠ SỞ DỮ LIỆU
+NOTES: Chuyển ý: Phần hai trả lời PostgreSQL tổ chức dữ liệu thế nào và ngăn dữ liệu sai bằng cách nào. ⏎  ⏎ db/migrations/002-core-schema.ts
+
+### 8
+Nhóm bảng chính
+Mỗi nhóm bảng phục vụ một chức năng của ReadLite
+01
+Người dùng
+users, sessions và lịch sử đổi vai trò
+02
+Truyện và nội dung
+stories, volumes, chapters, story_genres
+03
+Tủ sách
+favorites, reading_progress
+04
+EPUB và duyệt
+media_assets, story_review_events, story_review_jobs
+NOTES: Không đọc từng tên bảng liên tục. Nêu bốn nhóm theo nghiệp vụ: ai dùng, đọc cái gì, đã lưu gì, xuất bản ra sao. Chuyển ý: các bảng nối với nhau bằng khóa. ⏎  ⏎ db/migrations/002-core-schema.ts; db/migrations/003-story-submissions-media.ts; db/migrations/007-account-role-events.ts
+
+### 9
+Quan hệ giữa các bảng
+Lược đồ rút gọn để giải thích đường đi của một truyện
+users
+id UUID
+stories
+id BIGINT; owner_id
+volumes
+story_id
+chapters
+story_id; volume_id
+genres
+qua story_genres
+favorites
+user_id + story_id
+reading_progress
+user_id + story_id
+Cả hai bảng dưới gắn một người dùng với một truyện.
+1 : N
+1 : N
+1 : N
+N : M
+NOTES: Bắt đầu ở stories: một truyện có tập, chương, nhiều thể loại. users và stories nối qua owner_id. Hai bảng dưới là dữ liệu riêng theo tài khoản. Chuyển ý: khóa và CHECK làm quan hệ này an toàn. ⏎  ⏎ db/migrations/002-core-schema.ts; db/migrations/003-story-submissions-media.ts
+
+### 10
+Ràng buộc dữ liệu
+Quy tắc quan trọng được kiểm tra ngay trong PostgreSQL
+PRIMARY KEY
+stories.id định danh truyện; users.id định danh tài khoản
+FOREIGN KEY
+current_chapter_id phải thuộc đúng story_id của dòng tiến độ
+Khóa ghép
+favorites và reading_progress dùng (user_id, story_id)
+CHECK
+position_permille từ 0 đến 1000; trạng thái chỉ nhận giá trị hợp lệ
+NOTES: Minh họa lỗi thực tế: không thể lưu tiến độ ở chương thuộc truyện khác. Khóa ghép ngăn một tài khoản có nhiều dòng tiến độ cho cùng truyện. Chuyển ý: các ràng buộc được đưa vào hệ thống qua migration. ⏎  ⏎ db/migrations/002-core-schema.ts; db/migrations/003-story-submissions-media.ts
+
+### 11
+Migration PostgreSQL
+API áp dụng migration thành công rồi mới mở cổng
+await runner({ ⏎   databaseUrl: env.databaseUrl, ⏎   dir: migrationDirectory, ⏎   direction: 'up', ⏎   migrationsTable: 'pgmigrations', ⏎   verbose: true ⏎ }); ⏎  ⏎ app.listen(env.port);
+001–003
+Bật extension, tạo bảng lõi, thêm EPUB và media.
+004–007
+Ngày phát hành, thể loại, duyệt thủ công và lịch sử phân quyền.
+Nếu migration lỗi
+API dừng trước khi nhận yêu cầu.
+NOTES: Đoạn mã này là trích lược từ server.ts, bỏ phần try/catch để tập trung thứ tự. Mở file thật nếu hỏi. Chuyển ý: đã có cấu trúc, ta xem những thao tác thật ghi vào các bảng ra sao. ⏎  ⏎ apps/api/src/server.ts; db/migrations/001-enable-extensions.ts;  ⏎ db/migrations/002-core-schema.ts;  ⏎ db/migrations/003-story-submissions-media.ts;  ⏎ db/migrations/004-story-publication-date.ts;  ⏎ db/migrations/005-genre-catalog.ts;  ⏎ db/migrations/006-manual-admin-review.ts; ⏎ db/migrations/007-account-role-events.ts
+
+### 12
+03
+GHI VÀ CẬP NHẬT ⏎ DỮ LIỆU
+NOTES: Chuyển ý: từ lược đồ chuyển sang nghiệp vụ. Chọn bốn thao tác người dùng nhìn thấy để nói dữ liệu thay đổi trong PostgreSQL. ⏎  ⏎ README.md
+
+### 13
+Nhập một tệp EPUB
+Mỗi tệp tạo một bản nháp riêng để kiểm tra trước khi gửi duyệt
+BEGIN ⏎  ⏎ INSERT INTO stories ... ⏎ INSERT INTO volumes ... ⏎ INSERT INTO chapters ... ⏎ INSERT INTO media_assets ... ⏎  ⏎ COMMIT  /  ROLLBACK
+Đọc tệp
+Trích metadata, bìa, mục lục và nội dung chương.
+Lưu dữ liệu
+Bản ghi vào PostgreSQL; bytes EPUB/ảnh vào kho media.
+Khi có lỗi
+Rollback database và dọn tệp vừa tạo.
+NOTES: Đây là mã SQL khái quát, không phải câu lệnh nguyên văn. Nhập nhiều EPUB thì mỗi tệp thành bản nháp riêng; lỗi một tệp không làm mất các tệp khác. Chuyển ý: bản nháp chưa hiện trên app vì phải được duyệt. ⏎  ⏎ apps/api/src/services/story-import-service.ts; README.md
+
+### 14
+Duyệt và xuất bản truyện
+Trạng thái trong stories quyết định truyện có hiện trên Android
+BẢN NHÁP
+private / draft
+→
+HÀNG CHỜ
+admin_review_pending
+→
+XUẤT BẢN
+public / published
+AI có thể hỗ trợ rà soát. Khi chưa cấu hình AI, quản trị viên vẫn duyệt thủ công.
+NOTES: Theo luồng hiện tại, AI tùy chọn. Không có AI thì bản nháp chuyển sang hàng chờ admin. Chỉ sau khi admin duyệt thì stories chuyển public/published. Chuyển ý: khi đã xuất bản, người đọc có thể lưu truyện vào tủ sách. ⏎  ⏎ apps/api/src/routes/admin-review.ts; db/migrations/006-manual-admin-review.ts; README.md
+
+### 15
+Lưu truyện yêu thích
+Một người chỉ có một dòng yêu thích cho mỗi truyện
+INSERT INTO favorites ⏎   (user_id, story_id) ⏎ SELECT $1, s.id ⏎ FROM stories AS s ⏎ WHERE s.id = $2 ⏎   AND s.visibility = 'public' ⏎   AND s.moderation_status = 'published' ⏎ ON CONFLICT (user_id, story_id) ⏎ DO UPDATE ...;
+Thao tác
+Người đọc chạm biểu tượng yêu thích trên Android.
+Khóa ghép
+(user_id, story_id) ngăn lưu trùng.
+Điều kiện
+Chỉ truyện đã xuất bản mới được thêm.
+NOTES: Đây là truy vấn rút gọn; trong library.ts có câu đầy đủ. user_id lấy từ phiên đăng nhập, không lấy tùy ý từ app. Chuyển ý: tiến độ đọc dùng cùng khóa ghép nhưng lưu thêm vị trí. ⏎  ⏎ apps/api/src/routes/library.ts; db/migrations/002-core-schema.ts
+
+### 16
+Lưu tiến độ đọc
+Đọc lại truyện sẽ mở chương và vị trí đã lưu
+INSERT INTO reading_progress ⏎  (user_id, story_id, ⏎   current_chapter_id, position_permille) ⏎ SELECT $1, s.id, c.id, $4 ⏎ FROM stories s JOIN chapters c ⏎   ON c.story_id = s.id ⏎ WHERE s.id = $2 AND c.id = $3 ⏎ ON CONFLICT (user_id, story_id) ⏎ DO UPDATE SET ...;
+Khóa ghép
+Mỗi tài khoản có một dòng tiến độ trên mỗi truyện.
+Vị trí
+position_permille nằm trong khoảng 0–1000.
+Kiểm tra
+Chương phải thuộc đúng truyện; API lọc truyện đã xuất bản.
+NOTES: Giải thích UPSERT: lần đầu thêm dòng, lần sau cập nhật. Composite FK ngăn chương của truyện khác. Chuyển ý: ta sẽ kiểm chứng các thay đổi này trên API, Android và câu SQL. ⏎  ⏎ Mã nguồn: apps/api/src/routes/library.ts; db/migrations/002-core-schema.ts
+
+### 17
+04
+TRUY VẤN ⏎ VÀ DEMO
+NOTES: Chuyển ý: từ thao tác ghi sang đọc. Trước khi demo, giải thích vì sao chỉ truyện đã duyệt có mặt trong danh mục. ⏎  ⏎ Mã nguồn: apps/api/src/routes/catalog.ts
+
+### 18
+Truy vấn danh mục truyện
+SELECT ... FROM stories AS s ⏎ WHERE s.visibility = 'public' ⏎   AND s.moderation_status = 'published' ⏎ ORDER BY s.created_at DESC;
+Android
+Gọi GET /api/v1/stories.
+API
+Chạy truy vấn có tham số cho bộ lọc người dùng.
+Kết quả
+Bản nháp riêng tư không hiện trong Khám phá.
+NOTES: Truy vấn trên slide là phần điều kiện cốt lõi, được rút gọn. Chỉ vào catalog.ts và CatalogApiClient.java nếu giảng viên muốn thấy cả hai đầu. Chuyển ý: những thao tác ghi còn phải qua kiểm tra tài khoản. ⏎  ⏎ Mã nguồn: apps/api/src/routes/catalog.ts; apps/android/app/src/main/java/com/readlite/mobile/CatalogApiClient.java
+
+### 19
+Quyền truy cập trước khi ghi
+user
+Đọc truyện, lưu yêu thích và tiến độ của chính mình
+author
+Tạo, nhập EPUB và quản lý bản nháp của mình
+admin
+Duyệt truyện và phân quyền tài khoản
+Câu SQL dùng tham số $1, $2...; lịch sử đổi vai trò lưu ở account_role_events.
+NOTES: Android không dùng DATABASE_URL. Server xác thực và phân quyền, rồi mới chạy câu SQL có tham số. account_role_events ghi ai đổi quyền cho ai. Chuyển ý sang demo trực tiếp. ⏎  ⏎ apps/api/src/routes/library.ts; apps/api/src/routes/admin-review.ts; apps/api/src/routes/admin-users.ts; db/migrations/007-account-role-events.ts
+
+### 20
+Demo trực tiếp trong 3 phút
+01
+Mở hệ thống
+API health, web và Android cùng hoạt động
+02
+Thao tác trên app
+Yêu thích một truyện và đọc một chương
+03
+Xem tủ sách
+Truyện và vị trí đọc hiện đúng tài khoản
+04
+Đối chiếu SQL
+SELECT từ favorites và reading_progress
+NOTES: Thời lượng 3 phút nếu demo trong bài. Chuẩn bị truyện public/published và tài khoản đăng nhập. Bắt đầu bằng health, thao tác yêu thích và đọc trên Android, mở Tủ sách, cuối cùng chạy SELECT theo email tài khoản demo. Không chọn nhập EPUB lớn tại chỗ. Câu SQL đầy đủ ở tài liệu hướng dẫn. ⏎  ⏎ Mã nguồn: README.md; apps/api/src/routes/library.ts
+
+### 21
+Mã nguồn để trả lời giảng viên
+Bảng và khóa
+db/migrations/002-core-schema.ts
+Migration
+apps/api/src/server.ts
+Truyện công khai
+apps/api/src/routes/catalog.ts
+Yêu thích, tiến độ
+apps/api/src/routes/library.ts
+Nhập EPUB và duyệt
+apps/api/src/services/story-import-service.ts ⏎ apps/api/src/routes/admin-review.ts
+NOTES: Thời lượng 25 giây nếu còn thời gian; nếu gần hết giờ, giữ slide này cho hỏi đáp. Chuẩn bị các tab IDE theo đúng thứ tự câu hỏi. Tránh cuộn tìm file trước lớp. ⏎  ⏎ db/migrations/002-core-schema.ts; apps/api/src/server.ts; apps/api/src/routes/catalog.ts; apps/api/src/routes/library.ts; apps/api/src/services/story-import-service.ts; apps/api/src/routes/admin-review.ts
+
+### 22
+Tổng kết
+01
+Dữ liệu dùng chung
+Android và web liên kế tại API; API kết nối PostgreSQL.
+02
+Quan hệ có ràng buộc
+Khóa, CHECK và transaction giữ truyện, chương và tiến độ nhất quán.
+03
+Truyện chỉ hiện sau duyệt
+Catalog chỉ trả truyện public và published.
+NOTES: Kết luận đúng ba ý, nối lại phần một, hai và demo. Không nói hệ thống đã hoàn tất triển khai production. Chuyển sang lời cảm ơn và hỏi đáp. ⏎  ⏎ Mã nguồn: README.md; apps/api/src/routes/catalog.ts
+
+### 23
+CẢM ƠN THẦY ⏎ VÀ CÁC BẠN ⏎ ĐÃ LẮNG NGHE
+NOTES: Mời thầy/cô đặt câu hỏi. Khi hỏi mã nguồn, chuyển về slide 21 rồi mở file tương ứng.

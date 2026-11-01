@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.ReadLite" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/readlite_green</item>
+        <item name="colorPrimaryVariant">@color/readlite_green_dark</item>
+        <item name="colorSecondary">@color/readlite_green</item>
+        <item name="colorOnPrimary">@android:color/white</item>
+        <item name="colorSurface">@color/readlite_surface</item>
+        <item name="android:colorBackground">@color/readlite_paper</item>
+        <item name="android:windowBackground">@color/readlite_paper</item>
+        <item name="android:fontFamily">sans</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:windowLightNavigationBar">false</item>
+        <item name="android:statusBarColor">@color/readlite_paper</item>
+        <item name="android:navigationBarColor">@color/readlite_surface</item>
+        <item name="materialButtonStyle">@style/Widget.ReadLite.Primary</item>
+    </style>
+</resources>

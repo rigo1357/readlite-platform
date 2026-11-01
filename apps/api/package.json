@@ -1,0 +1,47 @@
+{
+  "name": "@readlite/api",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch src/server.ts",
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "lint": "eslint src --max-warnings=0",
+    "test": "npm run build && node scripts/test-runner.mjs all",
+    "test:unit": "npm run build && node scripts/test-runner.mjs unit",
+    "db:migrate": "node-pg-migrate up --config-file ./migrations.config.mjs",
+    "db:seed": "node dist/db/seed.js",
+    "db:rollback": "node-pg-migrate down --config-file ./migrations.config.mjs",
+    "account:grant-role": "npm run build && node dist/commands/grant-role.js"
+  },
+  "dependencies": {
+    "bcryptjs": "^3.0.3",
+    "busboy": "^1.6.0",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.6",
+    "express": "^5.1.0",
+    "express-rate-limit": "^8.7.1",
+    "fast-xml-parser": "^5.11.2",
+    "helmet": "^8.3.0",
+    "jose": "^6.2.12",
+    "node-pg-migrate": "^9.0.0",
+    "nodemailer": "^10.2.1",
+    "parse5": "^8.0.1",
+    "pg": "^8.16.3",
+    "yauzl": "^3.4.0",
+    "zod": "^4.6.0"
+  },
+  "devDependencies": {
+    "@electric-sql/pglite": "^0.5.11",
+    "@types/busboy": "^1.5.5",
+    "@types/cookie-parser": "^1.4.10",
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.6",
+    "@types/node": "^22.19.0",
+    "@types/nodemailer": "^8.0.2",
+    "@types/pg": "^8.23.1",
+    "@types/yauzl": "^3.4.0",
+    "tsx": "^4.23.15"
+  }
+}

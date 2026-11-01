@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/bookshelf_root" android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical" android:background="@color/readlite_paper">
+<LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="20dp">
+    <TextView style="@style/Widget.ReadLite.Title" android:text="Tủ sách của bạn" />
+    <TextView style="@style/Widget.ReadLite.Body" android:text="Những câu chuyện bạn muốn giữ lại." android:layout_marginTop="5dp" android:layout_marginBottom="16dp"/>
+    <EditText android:id="@+id/bookshelf_search" style="@style/Widget.ReadLite.Field" android:hint="Tìm trong tủ sách…" android:inputType="text" android:imeOptions="actionSearch"/>
+    <com.google.android.material.chip.ChipGroup android:id="@+id/bookshelf_filters" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="12dp" app:singleSelection="true" app:selectionRequired="true">
+        <com.google.android.material.chip.Chip android:id="@+id/bookshelf_filter_all" style="@style/Widget.MaterialComponents.Chip.Choice" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Tất cả" android:checked="true"/>
+        <com.google.android.material.chip.Chip android:id="@+id/bookshelf_filter_reading" style="@style/Widget.MaterialComponents.Chip.Choice" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Đang đọc"/>
+        <com.google.android.material.chip.Chip android:id="@+id/bookshelf_filter_favorites" style="@style/Widget.MaterialComponents.Chip.Choice" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Yêu thích"/>
+    </com.google.android.material.chip.ChipGroup>
+    <TextView style="@style/Widget.ReadLite.Body" android:text="@string/bookshelf_loading" android:id="@+id/bookshelf_status" android:accessibilityLiveRegion="polite" android:layout_marginTop="8dp" android:textSize="12sp"/>
+    <com.google.android.material.button.MaterialButton android:id="@+id/bookshelf_sign_in_button" style="@style/Widget.ReadLite.Primary" android:layout_width="match_parent" android:layout_height="52dp" android:text="@string/account_sign_in" android:visibility="gone" android:layout_marginTop="10dp"/>
+</LinearLayout>
+<GridView android:id="@+id/bookshelf_story_list" android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1" android:numColumns="2" android:horizontalSpacing="14dp" android:verticalSpacing="12dp" android:paddingStart="20dp" android:paddingEnd="20dp" android:paddingBottom="12dp" android:clipToPadding="false" android:stretchMode="columnWidth" android:listSelector="@android:color/transparent"/>
+<View android:layout_width="match_parent" android:layout_height="1dp" android:background="@color/readlite_line"/><com.google.android.material.bottomnavigation.BottomNavigationView android:id="@+id/bookshelf_bottom_navigation" style="@style/Widget.ReadLite.Navigation" app:menu="@menu/catalog_bottom_menu"/></LinearLayout>

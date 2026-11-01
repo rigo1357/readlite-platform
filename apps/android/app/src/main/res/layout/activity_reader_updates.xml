@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:id="@+id/reader_updates_root" android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical" android:background="@color/readlite_paper">
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center_vertical" android:paddingStart="12dp" android:paddingEnd="12dp">
+        <com.google.android.material.button.MaterialButton android:id="@+id/reader_updates_back" style="@style/Widget.MaterialComponents.Button.TextButton" android:layout_width="48dp" android:layout_height="48dp" android:minWidth="48dp" android:text="‹" android:contentDescription="Quay lại"/>
+        <TextView android:id="@+id/reader_updates_title" style="@style/Widget.ReadLite.Title" android:layout_width="0dp" android:layout_weight="1" android:text="Cập nhật của bạn" android:textSize="20sp"/>
+        <com.google.android.material.button.MaterialButton android:id="@+id/reader_updates_refresh" style="@style/Widget.MaterialComponents.Button.TextButton" android:layout_width="wrap_content" android:layout_height="48dp" android:text="Tải lại"/>
+    </LinearLayout>
+    <com.google.android.material.tabs.TabLayout android:id="@+id/reader_updates_tabs" android:layout_width="match_parent" android:layout_height="48dp" android:background="@color/readlite_paper"/>
+    <LinearLayout android:id="@+id/reader_updates_filters" android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center_vertical" android:paddingStart="20dp" android:paddingEnd="20dp">
+        <CheckBox android:id="@+id/reader_updates_unread" android:layout_width="0dp" android:layout_weight="1" android:layout_height="48dp" android:text="Chỉ chưa đọc" android:textColor="@color/readlite_ink"/>
+        <com.google.android.material.button.MaterialButton android:id="@+id/reader_updates_read_all" style="@style/Widget.MaterialComponents.Button.TextButton" android:layout_width="wrap_content" android:layout_height="48dp" android:text="Đánh dấu tất cả" android:contentDescription="Đánh dấu tất cả thông báo đã đọc"/>
+    </LinearLayout>
+    <ScrollView android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1" android:fillViewport="true">
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="20dp">
+            <TextView android:id="@+id/reader_updates_status" style="@style/Widget.ReadLite.Body" android:accessibilityLiveRegion="polite"/>
+            <LinearLayout android:id="@+id/reader_updates_list" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical"/>
+            <com.google.android.material.button.MaterialButton android:id="@+id/reader_updates_more" style="@style/Widget.ReadLite.Secondary" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Xem thêm" android:visibility="gone"/>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>
